@@ -11,74 +11,74 @@ import zipfile
 import shutil
 
 
-def get_system_time():
+def get_system_time():	# 获取系统时间
 	time=datetime.datetime.now()
 	timeformat=time.strftime('%Y.%m.%d  %H:%M:%S')
 	return timeformat
 
-def DecData2BinData_8bit(decdata):
+def DecData2BinData_8bit(decdata):	# 将十进制数据转换为8位二进制数据
 	bit='{:08b}'.format(decdata)
 	return bit
 
-def HexData2BinData_8bit(hexdata):
+def HexData2BinData_8bit(hexdata):	# 将16进制数据转换为8位二进制数据
 	bit='{:08b}'.format(int(hexdata,16))
 	return bit
 
-def AscData2list(string):
+def AscData2list(string):	# 将字符串转换为列表
 	if re.search(r"[0-9a-f][0-9a-f]\s+[0-9a-f][0-9a-f]",string,re.I):
 		list_readline=string.split()
 	else:
 		list_readline=list(string)
 	return list_readline
 
-def AscData2BinData(AscData):
+def AscData2BinData(AscData):	# 将16进制数据转换为8位二进制数据
 	if re.search(r"[0-9a-f][0-9a-f]",AscData,re.I):
 		BinData=HexData2BinData_8bit(AscData)
 	else:
 		BinData=DecData2BinData_8bit(ord(AscData))
 	return BinData
 
-def DisplayEscapeChar(string,flag):
+def DisplayEscapeChar(string,flag):	# 将字符串中的转义字符进行替换
 	if flag=="True":
 		string_esc=string.replace('\r',r'\r').replace('\n',r'\n')
 	elif flag=="False":
 		string_esc=string.replace(r'\r','\r').replace(r'\n','\n')
 	return string_esc
 
-def DeleteCarriage(list_readline):
+def DeleteCarriage(list_readline):		# 删除列表中的换行符
 	for i,readline in enumerate(list_readline):
 		list_readline[i]=readline.replace('\r','').replace('\n','')
 	return list_readline
 
-def Drive2CompareFormat(string):
+def Drive2CompareFormat(string):		# 将驱动文件中的数据转换为比较格式
 	if int(string)==0:
 		string_compare="L"
 	elif int(string)==1:
 		string_compare="H"
 	return string_compare
 
-def GetIndex_WR_PattternSrc(Flag_WR_PattternSrc):
+def GetIndex_WR_PattternSrc(Flag_WR_PattternSrc):	# 获取写入/读取模式索引
 	if Flag_WR_PattternSrc=="write":
 		index=0
 	elif Flag_WR_PattternSrc=="read":
 		index=1
 	return index
 
-def GetIndex_WR_Timing(Flag_WR_Timing):
+def GetIndex_WR_Timing(Flag_WR_Timing):	# 获取写入/读取模式索引
 	if Flag_WR_Timing=="write":
 		index=0
 	elif Flag_WR_Timing=="read":
 		index=1
 	return index
 
-def MerageTimesets(BaudRates,PinInfo):
+def MerageTimesets(BaudRates,PinInfo):		# 合并时间设置
 	if PinInfo[len(BaudRates)-2][3]==PinInfo[len(BaudRates)-1][3]:
 		TimeSets=PinInfo[len(BaudRates)-2][3]
 	elif PinInfo[len(BaudRates)-2][3]!=PinInfo[len(BaudRates)-1][3]:
 		TimeSets=PinInfo[len(BaudRates)-2][3]+","+PinInfo[len(BaudRates)-1][3]
 	return TimeSets
 
-def MerageTimesets_IIC(BaudRates,PinInfo):
+def MerageTimesets_IIC(BaudRates,PinInfo):	# 合并时间设置
 	if PinInfo[len(BaudRates)-2][3]==PinInfo[len(BaudRates)-1][3]:
 		TimeSets=PinInfo[len(BaudRates)-2][3]+","+PinInfo[len(BaudRates)-2][3]+"_Start"+","+PinInfo[len(BaudRates)-2][3]+"_Idle"+","+PinInfo[len(BaudRates)-2][3]+"_Stop"
 	elif PinInfo[len(BaudRates)-2][3]!=PinInfo[len(BaudRates)-1][3]:
@@ -86,7 +86,7 @@ def MerageTimesets_IIC(BaudRates,PinInfo):
 			+PinInfo[len(BaudRates)-1][3]+","+PinInfo[len(BaudRates)-1][3]+"_Start"+","+PinInfo[len(BaudRates)-1][3]+"_Idle"+","+PinInfo[len(BaudRates)-1][3]+"_Stop"
 	return TimeSets
 
-def MeragePinMap(BaudRates,PinInfo):
+def MeragePinMap(BaudRates,PinInfo):		# 合并引脚映射
 	if PinInfo[len(BaudRates)-2][0]==PinInfo[len(BaudRates)-1][0]:
 		PinMap=PinInfo[len(BaudRates)-2][0]
 	elif PinInfo[len(BaudRates)-2][0]!=PinInfo[len(BaudRates)-1][0]:
@@ -97,7 +97,7 @@ def MeragePinMap(BaudRates,PinInfo):
 			PinMap=PinMap+","+PinInfo[i][0]
 	return PinMap
 
-def MergePattern(Pinmap,BaudRates,PinInfo,Flag_WR_Timing,Flag_WR_PattternSrc,fp,Opcode,DataList,comment):
+def MergePattern(Pinmap,BaudRates,PinInfo,Flag_WR_Timing,Flag_WR_PattternSrc,fp,Opcode,DataList,comment):	# 合并写入/读取模式
 	Opcode=Opcode+'\t\t'*(3-int(len(Opcode)/8))
 	timeset=PinInfo[GetIndex_WR_Timing(Flag_WR_Timing)][3]+"\t\t"*(1-int(len(PinInfo[GetIndex_WR_Timing(Flag_WR_Timing)][3])/8))
 
@@ -116,7 +116,7 @@ def MergePattern(Pinmap,BaudRates,PinInfo,Flag_WR_Timing,Flag_WR_PattternSrc,fp,
 
 	fp.write(Opcode+"\t\t"+timeset+""+"\t\t"+writedata+" ;"+"\t\t"+comment+"\n")
 
-def MergePattern_DiffTiming(Pinmap,BaudRates,PinInfo,Flag_WR_Timing,TimingName,Flag_WR_PattternSrc,fp,Opcode,DataList,comment,Flag_lineNo,lineNo):
+def MergePattern_DiffTiming(Pinmap,BaudRates,PinInfo,Flag_WR_Timing,TimingName,Flag_WR_PattternSrc,fp,Opcode,DataList,comment,Flag_lineNo,lineNo):	# 合并写入/读取模式
 	Opcode=Opcode+'\t\t'*(3-int(len(Opcode)/8))
 	timeset=PinInfo[GetIndex_WR_Timing(Flag_WR_Timing)][3]+"\t\t"*(1-int(len(PinInfo[GetIndex_WR_Timing(Flag_WR_Timing)][3])/8))
 
@@ -142,7 +142,7 @@ def MergePattern_DiffTiming(Pinmap,BaudRates,PinInfo,Flag_WR_Timing,TimingName,F
 	else:
 		fp.write(Opcode+"\t\t"+timeset+""+"\t\t"+writedata+" ;"+"\t\t"+comment+"\n")
 
-def BaudRateConvUnit(BaudRate):
+def BaudRateConvUnit(BaudRate):	# 将波特率转换为数值
 	if re.search(r"(\d+)(\D+)",BaudRate,re.I):
 		BaudRate_re=re.search(r"(\d+)(\D+)",BaudRate,re.I)
 		BaudRate_Value=BaudRate_re.group(1)
@@ -158,7 +158,7 @@ def BaudRateConvUnit(BaudRate):
 		BaudRate_Value=int(BaudRate)
 	return BaudRate_Value
 
-def BaudRate2PinInfo(Pinmap,BaudRates):
+def BaudRate2PinInfo(Pinmap,BaudRates):	# 将波特率转换为引脚信息
 	for i,Pin in enumerate(Pinmap):
 		if i<len(BaudRates):
 			BaudRate_Base=BaudRateConvUnit(BaudRates[i])
@@ -188,7 +188,7 @@ def BaudRate2PinInfo(Pinmap,BaudRates):
 
 	return PinInfo
 
-def WaitTime2LoopNumbers(Flag_WR_Timing,PinInfo,waittime):
+def WaitTime2LoopNumbers(Flag_WR_Timing,PinInfo,waittime):	# 将等待时间转换为循环次数
 	BaudRate=PinInfo[GetIndex_WR_Timing(Flag_WR_Timing)][2]
 	waittime_re=re.search(r"(\d+)(\D+)",waittime,re.I)
 	waittime_value=waittime_re.group(1)
@@ -206,7 +206,7 @@ def WaitTime2LoopNumbers(Flag_WR_Timing,PinInfo,waittime):
 	loopnumbers=int(waittime_value*BaudRate)
 	return loopnumbers
 
-def HexTxt2StardardTxt(outputfile,list_readlines,Flag_carriage):
+def HexTxt2StardardTxt(outputfile,list_readlines,Flag_carriage):	# 将hex文件转换为标准txt文件
 	fp_write=open(outputfile,'w')
 	Flag_WR_PattternSrc=''
 
@@ -242,7 +242,7 @@ def HexTxt2StardardTxt(outputfile,list_readlines,Flag_carriage):
 
 	fp_write.close()
 
-def StardardTxt2NiPattern(inputfile,PinInfo,Flag_EvenParity,Flag_readdata,list_readline,Flag_lineNo):
+def StardardTxt2NiPattern(inputfile,PinInfo,Flag_EvenParity,Flag_readdata,list_readline,Flag_lineNo):		# 将标准txt文件转换为digipatsrc文件
 	fp_write=open(inputfile,'w')
 	printtime=get_system_time()
 	patternname=inputfile.replace('.digipatsrc','')
@@ -406,7 +406,7 @@ def StardardTxt2NiPattern(inputfile,PinInfo,Flag_EvenParity,Flag_readdata,list_r
 
 	return(MeragePinMap(BaudRates,PinInfo),lineNo)
 
-def CreateAsciiFile_Smart8(sprgfile,vecfile,cmtfile,asciifile):
+def CreateAsciiFile_Smart8(sprgfile,vecfile,cmtfile,asciifile):				
 	fp_write_sprgfile=open(sprgfile,'r')
 	fp_write_vecfile=open(vecfile,'r')
 	fp_write_cmtfile=open(cmtfile,'r')
@@ -454,7 +454,7 @@ def CreateAsciiFile_Smart8(sprgfile,vecfile,cmtfile,asciifile):
 	fp_write_asciifile.write("</Pattern>\n")
 	fp_write_asciifile.close()
 
-def NiPattern2Smart8Pattern(inputfile,list_readlines,PinGroup,line_numbers,Flag_zip):
+def NiPattern2Smart8Pattern(inputfile,list_readlines,PinGroup,line_numbers,Flag_zip):	
 	asciifile=inputfile.replace('.digipatsrc','.ascii')
 	sprgfile="Program.sprg"
 	vecfile="Vectors.vec"
@@ -540,7 +540,7 @@ def NiPattern2Smart8Pattern(inputfile,list_readlines,PinGroup,line_numbers,Flag_
 if __name__=="__main__":
 	global list_readline
 	Pinmap=["SCL","SDA"]
-	BaudRates=["400K","100K"]
+	BaudRates=["400K","100K"]	
 	OtherPin={}
 	PinInfo={}
 	Flag_OtherPin=0
