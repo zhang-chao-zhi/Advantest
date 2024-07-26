@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/zeal.zhang/OneDrive - Advantest/advantest_document/爱德万测试/6、我的工具/Script_Register2pattern_SMT8/Script_Register2pattern_SMT8/Script(Windows and Linux)/Advantest/Script_I2C_Register2pattern_SMT8",
+      "program": "c:/Users/zeal.zhang/OneDrive - Advantest/advantest_document/爱德万测试/6、我的工具/Script_Register2pattern_SMT8/Script_Register2pattern_SMT8/Script(Windows and Linux)/Advantest/Script_I2C_Register2pattern_SMT8/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

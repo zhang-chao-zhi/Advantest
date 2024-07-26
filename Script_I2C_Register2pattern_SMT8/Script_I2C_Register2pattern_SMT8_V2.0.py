@@ -568,6 +568,7 @@ if __name__=="__main__":
 	# Flag_lineNo=int(input("Show line Number on the comment [0/1]:"))
 	# Flag_zip=int(input("whether vec&sprg&cmt file compress to patfile [0/1]:"))
 
+
 	#method2:External input by setup(window and linux)
 	files=os.listdir(os.getcwd())
  
@@ -605,9 +606,9 @@ if __name__=="__main__":
 			# use for Smart8,remove pat file
 			files=os.listdir(os.getcwd())
 
-			# for i,inputfile in enumerate(files):
-			# 	if re.search(r'\.pat',inputfile,re.I):
-			# 		os.remove(inputfile)
+			for i,inputfile in enumerate(files):
+				if re.search(r'\.pat',inputfile,re.I):
+					os.remove(inputfile)
 
 			# all format Files turn into stardard txt
 			files=os.listdir(os.getcwd())
@@ -648,4 +649,23 @@ if __name__=="__main__":
 					DeleteCarriage(list_readlines)
 					NiPattern2Smart8Pattern(inputfile,list_readlines,PinGroup,line_numbers,Flag_zip)
 
+			print(files)
+
+			# use for Smart8,remove ascii digipatsrc file
+			files=os.listdir(os.getcwd())
+
+			for i,inputfile in enumerate(files):
+				if re.search(r'\.digipatsrc',inputfile,re.I):
+					os.remove(inputfile)
+				if re.search(r'\.ascii',inputfile,re.I):
+					os.remove(inputfile)
+ 
+			print(files)
+   
 			print('Done!')
+   
+   
+   
+    #method3:External input by gui(window and linux)
+    
+   
