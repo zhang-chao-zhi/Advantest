@@ -5,6 +5,7 @@ def setup_display():
 
     print("Input file load complete!")
     
+    # TODO 今天继续加代码，将输入的文件名写入到文件中
     
 # def txt_display():
 #     # 在按钮被点击时，获取文本框的内容并打印到控制台
@@ -33,8 +34,8 @@ txt_file = tk.Entry(UI)
 txt_file.place(x=270,y=50)
 
 # 创建一个按钮，当这个按钮被点击时，会调用display函数
-txt_button = tk.Button(UI, text="请输入pattern文件名", command=txt_display)
-txt_button.place(x=280,y=100)
+# txt_button = tk.Button(UI, text="请输入pattern文件名", command=txt_display)
+# txt_button.place(x=280,y=100)
 
 
 
